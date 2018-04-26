@@ -1,0 +1,6 @@
+# Intellij specific configurations
+.idea
+*.iml
+
+# Built
+targetgit
