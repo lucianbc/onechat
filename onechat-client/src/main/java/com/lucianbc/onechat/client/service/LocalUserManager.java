@@ -8,11 +8,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-public class UserIdentityService {
+public class LocalUserManager {
 
     private final UserIdentityDao userIdentityDao;
 
-    public UserIdentityService(UserIdentityDao userIdentityDao) {
+    public LocalUserManager(UserIdentityDao userIdentityDao) {
         this.userIdentityDao = userIdentityDao;
     }
 
