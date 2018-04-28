@@ -1,7 +1,10 @@
 package com.lucianbc.onechat.client;
 
+import com.lucianbc.onechat.client.application.OneChatClient;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello, world");
+        OneChatClient clientApp = new OneChatClient();
+        clientApp.run();
     }
 }

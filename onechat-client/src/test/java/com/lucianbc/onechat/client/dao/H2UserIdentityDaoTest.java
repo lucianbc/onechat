@@ -1,9 +1,12 @@
 package com.lucianbc.onechat.client.dao;
 
+import com.lucianbc.onechat.client.application.OneChatClient;
 import com.lucianbc.onechat.client.model.UserIdentity;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.sql.*;
@@ -15,6 +18,7 @@ import static org.junit.Assert.*;
 
 @SuppressWarnings({"SqlNoDataSourceInspection", "SqlResolve"})
 public class H2UserIdentityDaoTest {
+    private static Logger logger = LoggerFactory.getLogger(OneChatClient.class);
 
     private static final String DB_URL = "jdbc:h2:./onechat";
     private static final String[] DB_FILE_PATHS = {"./onechat.mv.db", "./onechat.trace.db"};
@@ -25,16 +29,16 @@ public class H2UserIdentityDaoTest {
     @After
     @Before
     public void cleanup() {
-        System.out.println("Cleaning up existing db files");
+        logger.info("Cleaning up existing db files");
         for (String path : DB_FILE_PATHS) {
             File file = new File(path);
             if (!file.exists()) {
-                System.out.println(String.format("File %s does not exists", path));
+                logger.info(String.format("File %s does not exists", path));
                 continue;
             }
             boolean isDeleted = file.delete();
             String msg = isDeleted ? "Successfully deleted %s" : "Failed deleting %s";
-            System.out.println(String.format(msg, path));
+            logger.info(String.format(msg, path));
         }
     }
 
