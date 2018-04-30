@@ -8,4 +8,5 @@ import java.util.List;
 public interface UserIdentityDao {
     List<UserIdentity> getRegisteredUsers() throws SQLException;
     void registerUser(UserIdentity user) throws SQLException;
+    void removeUser(UserIdentity user) throws SQLException;
 }

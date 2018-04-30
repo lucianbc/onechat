@@ -47,8 +47,8 @@ public class H2UserIdentityDaoTest {
         UserIdentityDao dao = new H2UserIdentityDao();
         assertNotNull(dao);
         try (Connection connection = connection()) {
-            ResultSet rset = connection.getMetaData().getTables(null, null, "USER_IDENTITY", null);
-            assertTrue(rset.next());
+            ResultSet rs = connection.getMetaData().getTables(null, null, "USER_IDENTITY", null);
+            assertTrue(rs.next());
         }
     }
 
@@ -67,11 +67,35 @@ public class H2UserIdentityDaoTest {
         }
     }
 
-
     @Test
     public void testQuery() throws Exception {
         UserIdentityDao dao = new H2UserIdentityDao();
+        List<UserIdentity> samples = populateTable();
 
+        List<UserIdentity> userIdentities = dao.getRegisteredUsers();
+        assertEquals(samples, userIdentities);
+    }
+
+    @Test
+    public void testDelete() throws Exception {
+        UserIdentityDao dao = new H2UserIdentityDao();
+        List<UserIdentity> samples = populateTable();
+        for (UserIdentity ui : samples) {
+            dao.removeUser(ui);
+        }
+
+        for (UserIdentity ui : samples) {
+            try (Connection connection = connection()) {
+                PreparedStatement ps = connection.prepareStatement("select * from user_identity where id = ?");
+                ps.setString(1, ui.getId());
+                ResultSet rs = ps.executeQuery();
+
+                assertFalse(rs.next());
+            }
+        }
+    }
+
+    private List<UserIdentity> populateTable() throws Exception {
         List<UserIdentity> samples = Collections.singletonList(new UserIdentity(UUID.randomUUID().toString(), "testUser"));
 
         try (Connection connection = connection()) {
@@ -82,9 +106,7 @@ public class H2UserIdentityDaoTest {
                 ps.executeUpdate();
             }
         }
-
-        List<UserIdentity> userIdentities = dao.getRegisteredUsers();
-        assertEquals(samples, userIdentities);
+        return samples;
     }
 
     private Connection connection() throws SQLException {
