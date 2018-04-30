@@ -1,18 +1,17 @@
-package com.lucianbc.onechat.client.service;
+package com.lucianbc.onechat.client.model.impl;
 
-import com.lucianbc.onechat.client.event.UserConnectedEvent;
-import com.lucianbc.onechat.client.model.UserIdentity;
+import com.lucianbc.onechat.client.data.UserIdentity;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class LobbyRoom {
+public class LobbyRoomImpl {
     private List<UserIdentity> connectedUsers = new ArrayList<>();
     private List<UserIdentity> publicList = Collections.unmodifiableList(connectedUsers);
 
-    private void onUserConnected(UserConnectedEvent event) {
-        connectedUsers.add(event.getUser());
+    private void onUserConnected(UserIdentity user) {
+        connectedUsers.add(user);
     }
 
     public List<UserIdentity> getConnectedUsers() {

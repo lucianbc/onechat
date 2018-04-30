@@ -1,18 +1,18 @@
-package com.lucianbc.onechat.client.service;
+package com.lucianbc.onechat.client.model.impl;
 
 import com.lucianbc.onechat.client.dao.UserIdentityDao;
-import com.lucianbc.onechat.client.model.UserIdentity;
+import com.lucianbc.onechat.client.data.UserIdentity;
 
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-public class LocalUserManager {
+public class SavedUsersImpl {
 
     private final UserIdentityDao userIdentityDao;
 
-    public LocalUserManager(UserIdentityDao userIdentityDao) {
+    public SavedUsersImpl(UserIdentityDao userIdentityDao) {
         this.userIdentityDao = userIdentityDao;
     }
 

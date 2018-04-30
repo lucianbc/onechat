@@ -1,4 +1,4 @@
-package com.lucianbc.onechat.client.model;
+package com.lucianbc.onechat.client.data;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

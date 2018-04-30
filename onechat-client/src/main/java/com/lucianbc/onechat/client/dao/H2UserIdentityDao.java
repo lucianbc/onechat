@@ -1,8 +1,7 @@
 package com.lucianbc.onechat.client.dao;
 
-import com.lucianbc.onechat.client.model.UserIdentity;
+import com.lucianbc.onechat.client.data.UserIdentity;
 
-import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

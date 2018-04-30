@@ -1,7 +1,7 @@
 package com.lucianbc.onechat.client.dao;
 
 import com.lucianbc.onechat.client.application.OneChatClient;
-import com.lucianbc.onechat.client.model.UserIdentity;
+import com.lucianbc.onechat.client.data.UserIdentity;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
