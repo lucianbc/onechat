@@ -1,8 +1,7 @@
 package com.lucianbc.onechat.client.dao;
 
-import com.lucianbc.onechat.client.model.UserIdentity;
+import com.lucianbc.onechat.client.data.UserIdentity;
 
-import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +14,7 @@ public class H2UserIdentityDao implements UserIdentityDao {
     private static final String DB_USER = "";
     private static final String DB_PASSWORD = "";
 
-    H2UserIdentityDao() throws Exception {
+    public H2UserIdentityDao() throws Exception {
         init();
     }
 
@@ -46,6 +45,18 @@ public class H2UserIdentityDao implements UserIdentityDao {
         ) {
             stm.setString(1, user.getId());
             stm.setString(2, user.getUsername());
+            stm.executeUpdate();
+        }
+    }
+
+    @Override
+    public void removeUser(UserIdentity user) throws SQLException {
+        String cmd = "delete from user_identity where id = ?";
+        try (
+                Connection conn = connection();
+                PreparedStatement stm = conn.prepareStatement(cmd)
+        ) {
+            stm.setString(1, user.getId());
             stm.executeUpdate();
         }
     }

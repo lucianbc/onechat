@@ -1,6 +1,6 @@
 package com.lucianbc.onechat.client.dao;
 
-import com.lucianbc.onechat.client.model.UserIdentity;
+import com.lucianbc.onechat.client.data.UserIdentity;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,17 +40,17 @@ public class H2UserIdentityDaoTest {
 
     @Test
     public void testCreateH2Dao() throws Exception {
-        UserIdentityDao dao = new H2UserIdentityDao();
+        UserIdentityDao dao = dao();
         assertNotNull(dao);
         try (Connection connection = connection()) {
-            ResultSet rset = connection.getMetaData().getTables(null, null, "USER_IDENTITY", null);
-            assertTrue(rset.next());
+            ResultSet rs = connection.getMetaData().getTables(null, null, "USER_IDENTITY", null);
+            assertTrue(rs.next());
         }
     }
 
     @Test
     public void testInsert() throws Exception {
-        UserIdentityDao dao = new H2UserIdentityDao();
+        UserIdentityDao dao = dao();
         UserIdentity userIdentity = new UserIdentity(UUID.randomUUID().toString(), "testUser");
         dao.registerUser(userIdentity);
 
@@ -66,8 +66,36 @@ public class H2UserIdentityDaoTest {
 
     @Test
     public void testQuery() throws Exception {
-        UserIdentityDao dao = new H2UserIdentityDao();
+        UserIdentityDao dao = dao();
 
+        List<UserIdentity> samples = populateTable();
+
+        List<UserIdentity> userIdentities = dao.getRegisteredUsers();
+        assertEquals(samples, userIdentities);
+    }
+
+    @Test
+    public void testDelete() throws Exception {
+        UserIdentityDao dao = dao();
+
+        List<UserIdentity> samples = Collections.singletonList(new UserIdentity(UUID.randomUUID().toString(), "testUser"));
+
+        for (UserIdentity ui : samples) {
+            dao.removeUser(ui);
+        }
+
+        for (UserIdentity ui : samples) {
+            try (Connection conn = connection()) {
+                PreparedStatement ps = conn.prepareStatement("select * from user_identity where id = ?");
+                ps.setString(1, ui.getId());
+                ResultSet rs = ps.executeQuery();
+
+                assertFalse(rs.next());
+            }
+        }
+    }
+
+    private List<UserIdentity> populateTable() throws Exception {
         List<UserIdentity> samples = Collections.singletonList(new UserIdentity(UUID.randomUUID().toString(), "testUser"));
 
         try (Connection connection = connection()) {
@@ -78,12 +106,14 @@ public class H2UserIdentityDaoTest {
                 ps.executeUpdate();
             }
         }
-
-        List<UserIdentity> userIdentities = dao.getRegisteredUsers();
-        assertEquals(samples, userIdentities);
+        return samples;
     }
 
     private Connection connection() throws SQLException {
         return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+    }
+
+    private UserIdentityDao dao() throws Exception {
+        return new H2UserIdentityDao();
     }
 }
