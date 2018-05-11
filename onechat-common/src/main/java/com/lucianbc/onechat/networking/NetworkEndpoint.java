@@ -34,6 +34,7 @@ public class NetworkEndpoint {
 
     private void listen() {
         while (true) {
+            System.out.println("waiting to read");
             try {
                 String line = reader.readLine();
                 if (line == null) {
@@ -53,7 +54,7 @@ public class NetworkEndpoint {
         thread.start();
     }
 
-    public void send(String path, String data) {
+    public void send(String path, Object data) {
         try {
             String request = sender.toRequest(path, data);
             writer.println(request);
@@ -63,7 +64,7 @@ public class NetworkEndpoint {
     }
 
     private void init(Socket socket, RequestMapper mapper) throws IOException {
-        this.writer = new PrintWriter(socket.getOutputStream());
+        this.writer = new PrintWriter(socket.getOutputStream(), true);
         this.reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         this.socket = socket;
         this.sender = new Sender();

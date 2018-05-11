@@ -1,7 +1,7 @@
 package com.lucianbc.onechat.client.model.impl;
 
 import com.lucianbc.onechat.client.dao.UserIdentityDao;
-import com.lucianbc.onechat.client.data.UserIdentity;
+import com.lucianbc.onechat.data.UserIdentity;
 import com.lucianbc.onechat.client.model.LocalUsersList;
 
 import javax.swing.*;

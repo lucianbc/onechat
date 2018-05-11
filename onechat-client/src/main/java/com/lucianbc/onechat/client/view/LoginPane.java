@@ -1,7 +1,7 @@
 package com.lucianbc.onechat.client.view;
 
 import com.lucianbc.onechat.client.controller.LoginController;
-import com.lucianbc.onechat.client.data.UserIdentity;
+import com.lucianbc.onechat.data.UserIdentity;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,7 +1,7 @@
 package com.lucianbc.onechat.client.action;
 
 import com.lucianbc.onechat.client.application.AppContext;
-import com.lucianbc.onechat.client.data.UserIdentity;
+import com.lucianbc.onechat.data.UserIdentity;
 
 public class ActionDispatcher {
     private final AppContext context;
@@ -28,7 +28,7 @@ public class ActionDispatcher {
         }
 
         public UserSelectedAction userSelected(UserIdentity user) {
-            return new UserSelectedAction(context.getAppContainer(), user);
+            return new UserSelectedAction(context.getAppContainer(), user, context);
         }
     }
 }

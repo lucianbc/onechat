@@ -1,7 +1,7 @@
 package com.lucianbc.onechat.client.controller;
 
 import com.lucianbc.onechat.client.action.ActionDispatcher;
-import com.lucianbc.onechat.client.data.UserIdentity;
+import com.lucianbc.onechat.data.UserIdentity;
 import com.lucianbc.onechat.client.model.LocalUsersList;
 
 import java.sql.SQLException;

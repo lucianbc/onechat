@@ -1,6 +1,6 @@
 package com.lucianbc.onechat.client.dao;
 
-import com.lucianbc.onechat.client.data.UserIdentity;
+import com.lucianbc.onechat.data.UserIdentity;
 
 import java.sql.SQLException;
 import java.util.List;
