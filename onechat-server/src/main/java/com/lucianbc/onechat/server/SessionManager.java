@@ -1,21 +1,25 @@
 package com.lucianbc.onechat.server;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SessionManager {
-    private List<Session> sessions = new LinkedList<>();
+    private Map<UserSessionId, Session> sessions = new HashMap<>();
 
     public synchronized void registerSession(Session session) {
-        sessions.forEach(s -> {
-            s.notifyAboutConnected(session);
-            session.notifyAboutConnected(s);
+        sessions.forEach((key, value) -> {
+            value.notifyAboutConnected(session);
+            session.notifyAboutConnected(value);
         });
-        sessions.add(session);
+        sessions.put(session.getId(), session);
     }
 
     public synchronized void dropSession(Session session) {
-        sessions.remove(session);
-        sessions.forEach(s -> s.notifyAboutDisconnected(session));
+        sessions.remove(session.getId());
+        sessions.forEach((k, v) -> v.notifyAboutDisconnected(session));
+    }
+
+    public synchronized Session getSession(UserSessionId id) {
+        return sessions.get(id);
     }
 }

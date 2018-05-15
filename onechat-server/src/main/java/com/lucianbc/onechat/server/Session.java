@@ -16,4 +16,12 @@ public class Session {
     public void notifyAboutDisconnected(Session userSession) {
         networkEndpoint.send("/disconnectedUser", userSession.user);
     }
+
+    public void notifyAboutRoom(ChatRoom chatRoom) {
+        networkEndpoint.send("/rooms", chatRoom.getRoomId());
+    }
+
+    public UserSessionId getId() {
+        return new UserSessionId(user.getId());
+    }
 }

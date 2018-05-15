@@ -38,6 +38,9 @@ public class Main {
         }, Object.class);
         mapper.register("/connectedUser", (e) -> ctx.getDispatcher().dispatch(ctx.getDispatcher().factory().userConnected(e)), UserIdentity.class);
         mapper.register("/disconnectedUser", (e) -> ctx.getDispatcher().dispatch(ctx.getDispatcher().factory().userDisconnected(e)), UserIdentity.class);
+        mapper.register("/rooms", (e) -> {
+            System.out.println("You have been added to room " + e);
+        }, String.class);
         return mapper;
     }
 }

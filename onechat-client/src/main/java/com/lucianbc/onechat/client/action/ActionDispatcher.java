@@ -38,5 +38,9 @@ public class ActionDispatcher {
         public UserDisconnectedAction userDisconnected(UserIdentity user) {
             return new UserDisconnectedAction(context.getConnectedUsers(), user);
         }
+
+        public Action startChat(UserIdentity targetUser) {
+            return new StartChatAction(context.getCurrentUser(), targetUser, context.getNetworkEndpoint());
+        }
     }
 }

@@ -26,7 +26,7 @@ public class SwingAppContainer extends JFrame implements AppContainer {
 
         this.setLayout(new BorderLayout());
         this.content.add(new LoginPane(appContext.getLocalUsersList(), appContext.getLoginController()), "1");
-        this.appPane = new AppPane(appContext.getConnectedUsers());
+        this.appPane = new AppPane(appContext.getConnectedUsers(), appContext.getDispatcher());
         this.content.add(this.appPane, "2");
         this.add(content, BorderLayout.CENTER);
         this.setVisible(true);

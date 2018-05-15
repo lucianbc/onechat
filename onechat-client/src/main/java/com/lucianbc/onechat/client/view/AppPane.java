@@ -1,5 +1,6 @@
 package com.lucianbc.onechat.client.view;
 
+import com.lucianbc.onechat.client.action.ActionDispatcher;
 import com.lucianbc.onechat.data.UserIdentity;
 
 import javax.swing.*;
@@ -11,10 +12,12 @@ class AppPane extends JPanel {
 
     private UserIdentity loggedUser = new UserIdentity("", "");
     private AbstractListModel<UserIdentity> connectedUsers;
+    private ActionDispatcher dispatcher;
 
-    AppPane(AbstractListModel<UserIdentity> connectedUsers) {
+    AppPane(AbstractListModel<UserIdentity> connectedUsers, ActionDispatcher dispatcher) {
         this.setBackground(Color.CYAN);
         this.connectedUsers = connectedUsers;
+        this.dispatcher = dispatcher;
 //        init(connectedUsers);
     }
 
@@ -59,6 +62,7 @@ class AppPane extends JPanel {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
                 if (mouseEvent.getClickCount() == 2) {
+                    dispatcher.dispatch(dispatcher.factory().startChat(connectedUsersList.getSelectedValue()));
                     System.out.println("Will start chat with " + connectedUsersList.getSelectedValue());
                 }
             }
