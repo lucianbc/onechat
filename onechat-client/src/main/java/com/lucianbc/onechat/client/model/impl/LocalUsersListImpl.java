@@ -9,14 +9,14 @@ import javax.swing.event.ListDataListener;
 import java.sql.SQLException;
 import java.util.*;
 
-public class LocalUsersListImpl extends AbstractListModel<UserIdentity> implements LocalUsersList {
+public class LocalUsersListImpl extends MyAbstractListModel<UserIdentity> implements LocalUsersList {
 
     private final UserIdentityDao userIdentityDao;
-    private final Vector<UserIdentity> delegate;
 
     public LocalUsersListImpl(UserIdentityDao userIdentityDao) {
+        super();
         this.userIdentityDao = userIdentityDao;
-        delegate = new Vector<>(getSavedUsers());
+        this.delegate.addAll(getSavedUsers());
         this.fireIntervalAdded(this, 0, delegate.size() - 1);
     }
 
@@ -29,28 +29,13 @@ public class LocalUsersListImpl extends AbstractListModel<UserIdentity> implemen
     public void registerUser(String username) throws SQLException {
         UserIdentity userIdentity = new UserIdentity(UUID.randomUUID().toString(), username);
         userIdentityDao.registerUser(userIdentity);
-        delegate.add(userIdentity);
-        this.fireIntervalAdded(this, delegate.size() - 1, delegate.size() - 1);
+        add(userIdentity);
     }
 
     @Override
     public void removeUser(UserIdentity user) throws SQLException {
         userIdentityDao.removeUser(user);
-        int var2 = this.delegate.indexOf(user);
-        this.delegate.removeElement(user);
-        if (var2 >= 0) {
-            this.fireIntervalRemoved(this, var2, var2);
-        }
-    }
-
-    @Override
-    public int getSize() {
-        return this.delegate.size();
-    }
-
-    @Override
-    public UserIdentity getElementAt(int i) {
-        return this.delegate.elementAt(i);
+        remove(user);
     }
 
     private List<UserIdentity> getSavedUsers() {

@@ -8,4 +8,12 @@ import lombok.AllArgsConstructor;
 public class Session {
     private UserIdentity user;
     private NetworkEndpoint networkEndpoint;
+
+    public void notifyAboutConnected(Session userSession) {
+        networkEndpoint.send("/connectedUser", userSession.user);
+    }
+
+    public void notifyAboutDisconnected(Session userSession) {
+        networkEndpoint.send("/disconnectedUser", userSession.user);
+    }
 }

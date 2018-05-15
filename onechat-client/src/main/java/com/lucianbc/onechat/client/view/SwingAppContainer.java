@@ -11,6 +11,7 @@ public class SwingAppContainer extends JFrame implements AppContainer {
     private final AppContext appContext;
     private CardLayout cl = new CardLayout();
     private JPanel content;
+    private AppPane appPane;
 
     public SwingAppContainer(AppContext appContext) {
         this.appContext = appContext;
@@ -25,7 +26,8 @@ public class SwingAppContainer extends JFrame implements AppContainer {
 
         this.setLayout(new BorderLayout());
         this.content.add(new LoginPane(appContext.getLocalUsersList(), appContext.getLoginController()), "1");
-        this.content.add(new AppPane(), "2");
+        this.appPane = new AppPane(appContext.getConnectedUsers());
+        this.content.add(this.appPane, "2");
         this.add(content, BorderLayout.CENTER);
         this.setVisible(true);
     }
@@ -37,6 +39,8 @@ public class SwingAppContainer extends JFrame implements AppContainer {
 
     @Override
     public void loadApp() {
+        appPane.setLoggedUser(appContext.getCurrentUser());
+        appPane.init();
         SwingUtilities.invokeLater(() -> cl.show(content, "2"));
     }
 

@@ -28,6 +28,7 @@ public class UserSelectedAction implements Action {
 
     @Override
     public void fire() {
+        context.setCurrentUser(user);
         container.loadApp();
         try {
             NetworkEndpoint ne = new NetworkEndpoint(HOST, PORT, context.getRequestMapper());

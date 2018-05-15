@@ -9,12 +9,15 @@ import java.net.Socket;
 
 public class ClientHandler implements Runnable {
 
-    private NetworkEndpoint endpoint;
-    private UserIdentity user;
+    private final NetworkEndpoint endpoint;
+    private Session userSession;
+    private final SessionManager sessionManager;
 
-    ClientHandler(Socket socket) throws IOException {
+    ClientHandler(Socket socket, SessionManager sessionManager) throws IOException {
+        this.sessionManager = sessionManager;
         RequestMapper mapper = initMapper();
         this.endpoint = new NetworkEndpoint(socket, mapper);
+        this.endpoint.onConnectionClosed(this::removeUser);
     }
 
     @Override
@@ -30,6 +33,11 @@ public class ClientHandler implements Runnable {
     }
 
     private void loginUser(UserIdentity user) {
-        this.user = user;
+        this.userSession = new Session(user, endpoint);
+        sessionManager.registerSession(userSession);
+    }
+
+    private void removeUser() {
+        sessionManager.dropSession(userSession);
     }
 }

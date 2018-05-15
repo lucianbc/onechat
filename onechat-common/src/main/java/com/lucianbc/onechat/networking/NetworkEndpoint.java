@@ -2,6 +2,7 @@ package com.lucianbc.onechat.networking;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -21,6 +22,8 @@ public class NetworkEndpoint {
     private Receiver receiver;
     private Sender sender;
 
+    private Command onConnectionClosed;
+
     public NetworkEndpoint(String host, int port, RequestMapper mapper) throws IOException {
         Socket socket = new Socket();
         socket.connect(new InetSocketAddress(host, port), TIMEOUT);
@@ -39,11 +42,13 @@ public class NetworkEndpoint {
                 String line = reader.readLine();
                 if (line == null) {
                     logger.info("Received null. Connection stopped by remote site.");
+                    if (onConnectionClosed != null) onConnectionClosed.invoke();
                     break;
                 }
                 receiver.handleRequest(line);
             } catch (IOException e) {
                 logger.info("Connection closed by the client.");
+                if (onConnectionClosed != null) onConnectionClosed.invoke();
                 break;
             }
         }
@@ -75,5 +80,9 @@ public class NetworkEndpoint {
         writer.close();
         reader.close();
         socket.close();
+    }
+
+    public void onConnectionClosed(Command command) {
+        this.onConnectionClosed = command;
     }
 }

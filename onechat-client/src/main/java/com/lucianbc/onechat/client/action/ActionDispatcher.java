@@ -30,5 +30,13 @@ public class ActionDispatcher {
         public UserSelectedAction userSelected(UserIdentity user) {
             return new UserSelectedAction(context.getAppContainer(), user, context);
         }
+
+        public UserConnectedAction userConnected(UserIdentity user) {
+            return new UserConnectedAction(context.getConnectedUsers(), user);
+        }
+
+        public UserDisconnectedAction userDisconnected(UserIdentity user) {
+            return new UserDisconnectedAction(context.getConnectedUsers(), user);
+        }
     }
 }
