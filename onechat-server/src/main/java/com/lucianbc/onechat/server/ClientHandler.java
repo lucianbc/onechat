@@ -17,11 +17,11 @@ public class ClientHandler implements Runnable {
     private final SessionManager sessionManager;
     private final ChatRoomManager chatRoomManager;
 
-    ClientHandler(Socket socket, SessionManager sessionManager) throws IOException {
+    ClientHandler(Socket socket, SessionManager sessionManager, ChatRoomManager chatRoomManager) throws IOException {
         this.sessionManager = sessionManager;
         RequestMapper mapper = initMapper();
         this.endpoint = new NetworkEndpoint(socket, mapper);
-        this.chatRoomManager = new ChatRoomManager(sessionManager);
+        this.chatRoomManager = chatRoomManager;
         this.endpoint.onConnectionClosed(this::removeUser);
     }
 

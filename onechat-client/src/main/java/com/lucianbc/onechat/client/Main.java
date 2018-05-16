@@ -13,6 +13,9 @@ import com.lucianbc.onechat.data.Message;
 import com.lucianbc.onechat.data.UserIdentity;
 import com.lucianbc.onechat.networking.RequestMapper;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) throws Exception {
         AppContext ctx = loadContext();
@@ -33,6 +36,7 @@ public class Main {
         return ctx;
     }
 
+    @SuppressWarnings("unchecked")
     private static RequestMapper initMappings(ActionDispatcher d) {
         ActionDispatcher.Factory f = d.factory();
         RequestMapper mapper = new RequestMapper();
@@ -40,7 +44,13 @@ public class Main {
         mapper.register("/connectedUser", (e) -> d.dispatch(f.userConnected(e)), UserIdentity.class);
         mapper.register("/disconnectedUser", (e) -> d.dispatch(f.userDisconnected(e)), UserIdentity.class);
         mapper.register("/rooms", (e) -> d.dispatch(f.addedToRoom(e)), String.class);
-        mapper.register("/incomingMessages", (e) -> d.dispatch(f.messageReceived(e)), Message.class);
+
+
+        List<Class> messageClasses = new LinkedList<>();
+        messageClasses.add(Message.class);
+        messageClasses.add(String.class);
+        messageClasses.add(UserIdentity.class);
+        mapper.register("/incomingMessages", (e) -> d.dispatch(f.messageReceived((Message<String, UserIdentity>)e)), messageClasses);
 
         return mapper;
     }

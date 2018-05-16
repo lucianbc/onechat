@@ -8,6 +8,7 @@ public class OneChatServer {
     public static void main(String[] args) throws Exception {
         ServerSocket server = new ServerSocket(5000);
         SessionManager sessionManager = new SessionManager();
+        ChatRoomManager chatRoomManager = new ChatRoomManager(sessionManager);
 
         while (true) {
             System.out.println("Waiting for a connection");
@@ -16,7 +17,7 @@ public class OneChatServer {
             System.out.println(client);
 
 
-            ClientHandler handler = new ClientHandler(client, sessionManager);
+            ClientHandler handler = new ClientHandler(client, sessionManager, chatRoomManager);
             Thread thread = new Thread(handler);
             thread.start();
         }
