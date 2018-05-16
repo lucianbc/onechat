@@ -1,6 +1,7 @@
 package com.lucianbc.onechat.client.application;
 
 import com.lucianbc.onechat.client.action.ActionDispatcher;
+import com.lucianbc.onechat.client.controller.ChatRoomsController;
 import com.lucianbc.onechat.client.controller.LoginController;
 import com.lucianbc.onechat.client.model.ConnectedUsers;
 import com.lucianbc.onechat.client.model.impl.ConnectedUsersImpl;
@@ -20,4 +21,5 @@ public class AppContext {
     private NetworkEndpoint networkEndpoint;
     private RequestMapper requestMapper;
     private UserIdentity currentUser;
+    private ChatRoomsController roomsController;
 }

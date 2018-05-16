@@ -1,6 +1,8 @@
 package com.lucianbc.onechat.client.action;
 
 import com.lucianbc.onechat.client.application.AppContext;
+import com.lucianbc.onechat.client.model.ChatRoom;
+import com.lucianbc.onechat.data.Message;
 import com.lucianbc.onechat.data.UserIdentity;
 
 public class ActionDispatcher {
@@ -27,20 +29,32 @@ public class ActionDispatcher {
             this.context = context;
         }
 
-        public UserSelectedAction userSelected(UserIdentity user) {
+        public Action userSelected(UserIdentity user) {
             return new UserSelectedAction(context.getAppContainer(), user, context);
         }
 
-        public UserConnectedAction userConnected(UserIdentity user) {
+        public Action userConnected(UserIdentity user) {
             return new UserConnectedAction(context.getConnectedUsers(), user);
         }
 
-        public UserDisconnectedAction userDisconnected(UserIdentity user) {
+        public Action userDisconnected(UserIdentity user) {
             return new UserDisconnectedAction(context.getConnectedUsers(), user);
         }
 
         public Action startChat(UserIdentity targetUser) {
-            return new StartChatAction(context.getCurrentUser(), targetUser, context.getNetworkEndpoint());
+            return new StartChatAction(targetUser, context.getNetworkEndpoint());
+        }
+
+        public Action sendMessage(ChatRoom chatRoom, String message) {
+            return new SendMessageAction(context.getCurrentUser(), chatRoom, message, context.getNetworkEndpoint());
+        }
+
+        public Action addedToRoom(String roomId) {
+            return new AddedToRoomAction(context.getAppContainer(), roomId, context.getRoomsController());
+        }
+
+        public Action messageReceived(Message<String, UserIdentity> m) {
+            return new MessageReceivedAction(context.getRoomsController(), m);
         }
     }
 }

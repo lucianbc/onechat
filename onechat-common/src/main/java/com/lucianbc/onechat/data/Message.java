@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SentMessage<RID, UID> {
-    private RID roomId;
-    private UID senderId;
+public class Message<R, U> {
+    private R room;
+    private U sender;
     private String message;
 }

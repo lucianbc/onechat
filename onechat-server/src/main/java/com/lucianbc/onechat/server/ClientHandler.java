@@ -1,5 +1,6 @@
 package com.lucianbc.onechat.server;
 
+import com.lucianbc.onechat.data.Message;
 import com.lucianbc.onechat.data.UserIdentity;
 import com.lucianbc.onechat.networking.NetworkEndpoint;
 import com.lucianbc.onechat.networking.RequestMapper;
@@ -33,8 +34,16 @@ public class ClientHandler implements Runnable {
         RequestMapper mapper = new RequestMapper();
         mapper.register("/login", this::loginUser, UserIdentity.class);
         mapper.register("/newRoom", this::openRoom, String.class);
-
+        mapper.register("/messages", this::handleMessage, Message.class);
         return mapper;
+    }
+
+    private void handleMessage(Message<String, String> t) {
+        Message<String, UserSessionId> msg = new Message<>();
+        msg.setRoom(t.getRoom());
+        msg.setMessage(t.getMessage());
+        msg.setSender(new UserSessionId(t.getSender()));
+        this.chatRoomManager.handleMessage(msg);
     }
 
     private void loginUser(UserIdentity user) {
