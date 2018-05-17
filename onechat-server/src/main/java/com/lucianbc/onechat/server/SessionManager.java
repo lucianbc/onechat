@@ -3,7 +3,7 @@ package com.lucianbc.onechat.server;
 import java.util.HashMap;
 import java.util.Map;
 
-class SessionManager {
+class SessionManager implements SessionWriteContract {
     private Map<UserSessionId, Session> sessions = new HashMap<>();
 
     synchronized void registerSession(Session session) {
@@ -21,5 +21,18 @@ class SessionManager {
 
     synchronized Session getSession(UserSessionId id) {
         return sessions.get(id);
+    }
+
+    @Override
+    public boolean isAvailable(UserSessionId id) {
+        Session session = getSession(id);
+        return session != null;
+    }
+
+    @Override
+    public void sendWriteAccess(UserSessionId id, boolean access, String roomId) {
+        Session session = getSession(id);
+        if (session == null) return;
+        session.setWriteAccess(roomId, access);
     }
 }

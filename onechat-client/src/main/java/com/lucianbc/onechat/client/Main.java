@@ -1,5 +1,6 @@
 package com.lucianbc.onechat.client;
 
+import com.lucianbc.onechat.client.action.Action;
 import com.lucianbc.onechat.client.action.ActionDispatcher;
 import com.lucianbc.onechat.client.application.AppContainer;
 import com.lucianbc.onechat.client.application.AppContext;
@@ -10,6 +11,7 @@ import com.lucianbc.onechat.client.model.impl.ConnectedUsersImpl;
 import com.lucianbc.onechat.client.model.impl.LocalUsersListImpl;
 import com.lucianbc.onechat.client.view.SwingAppContainer;
 import com.lucianbc.onechat.data.Message;
+import com.lucianbc.onechat.data.RoomAccess;
 import com.lucianbc.onechat.data.UserIdentity;
 import com.lucianbc.onechat.networking.RequestMapper;
 
@@ -51,6 +53,11 @@ public class Main {
         messageClasses.add(String.class);
         messageClasses.add(UserIdentity.class);
         mapper.register("/incomingMessages", (e) -> d.dispatch(f.messageReceived((Message<String, UserIdentity>)e)), messageClasses);
+
+        mapper.register("/writeAccess", (e) -> {
+            Action action = e.isHasAccess() ? f.accessReceived(e.getRoomId()) : f.accessTook(e.getRoomId());
+            d.dispatch(action);
+        }, RoomAccess.class);
 
         return mapper;
     }

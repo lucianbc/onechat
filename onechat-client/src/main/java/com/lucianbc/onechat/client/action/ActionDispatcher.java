@@ -56,5 +56,17 @@ public class ActionDispatcher {
         public Action messageReceived(Message<String, UserIdentity> m) {
             return new MessageReceivedAction(context.getRoomsController(), m);
         }
+
+        public Action accessReceived(String roomId) {
+            return new WritePermissionReceivedAction(context.getRoomsController(), roomId);
+        }
+
+        public Action accessTook(String roomId) {
+            return new WritePermissionTookAction(context.getRoomsController(), roomId);
+        }
+
+        public Action requestWriteAccess(ChatRoom room) {
+            return new RequestWritePermissionAction(room, context.getNetworkEndpoint());
+        }
     }
 }

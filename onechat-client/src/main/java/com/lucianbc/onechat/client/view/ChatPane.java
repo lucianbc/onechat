@@ -10,6 +10,7 @@ public class ChatPane extends JPanel {
 
     private JTextArea messagesArea;
     private JTextArea myTextArea;
+    private JButton sendBtn;
     private final ActionDispatcher actionDispatcher;
     private final ChatRoom room;
 
@@ -49,6 +50,8 @@ public class ChatPane extends JPanel {
         c.gridx = 1;
         c.insets = new Insets( 0, 0, 5, 5);
         this.add(buttonsPanel, c);
+
+        disableWrite();
     }
 
     private JPanel initMsgPanel() {
@@ -87,11 +90,12 @@ public class ChatPane extends JPanel {
     private JPanel initButtonsPanel() {
         JPanel p = new JPanel();
         p.setLayout(new GridLayout(2, 1));
-        JButton sendBtn = new JButton("Send!");
+        sendBtn = new JButton("Send!");
         sendBtn.setPreferredSize(new Dimension(0, 0));
         sendBtn.addActionListener(e -> this.sendAction());
         JButton askPermissionBtn = new JButton("Rise hand!");
         askPermissionBtn.setPreferredSize(new Dimension(0, 0));
+        askPermissionBtn.addActionListener(e -> this.askPermissionAction());
         p.setBackground(Color.GREEN);
         p.add(sendBtn);
         p.add(askPermissionBtn);
@@ -110,5 +114,19 @@ public class ChatPane extends JPanel {
         addMessage(content, "You");
         myTextArea.setText("");
         actionDispatcher.dispatch(actionDispatcher.factory().sendMessage(room, content));
+    }
+
+    private void askPermissionAction() {
+        actionDispatcher.dispatch(actionDispatcher.factory().requestWriteAccess(room));
+    }
+
+    public void enableWrite() {
+        this.myTextArea.setEditable(true);
+        this.sendBtn.setEnabled(true);
+    }
+
+    public void disableWrite() {
+        this.myTextArea.setEditable(false);
+        this.sendBtn.setEnabled(false);
     }
 }

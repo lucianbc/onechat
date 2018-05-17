@@ -35,7 +35,13 @@ public class ClientHandler implements Runnable {
         mapper.register("/login", this::loginUser, UserIdentity.class);
         mapper.register("/newRoom", this::openRoom, String.class);
         mapper.register("/messages", this::handleMessage, Message.class);
+        mapper.register("/roomPermission", this::handlePermissionRequest, String.class);
         return mapper;
+    }
+
+    private void handlePermissionRequest(String roomId) {
+        System.out.println("Handling a permission ask");
+        chatRoomManager.handleWriteRequest(roomId, userSession.getId());
     }
 
     private void handleMessage(Message<String, String> t) {

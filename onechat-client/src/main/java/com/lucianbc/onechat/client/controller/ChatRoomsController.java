@@ -21,4 +21,18 @@ public class ChatRoomsController {
         if (r == null) return;
         r.receiveMessage(m);
     }
+
+    public void grantWritePermission(String roomId) {
+        ChatRoom room = rooms.get(roomId);
+        if (room == null) return;
+
+        room.grantWritePermission();
+    }
+
+    public void removeWritePermission(String roomId) {
+        ChatRoom room = rooms.get(roomId);
+        if (room == null) return;
+
+        room.removeWritePermission();
+    }
 }

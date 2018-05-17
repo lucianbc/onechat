@@ -28,4 +28,12 @@ class ChatRoomManager {
         }
         targetRoom.distributeMessage(message);
     }
+
+    synchronized void handleWriteRequest(String roomId, UserSessionId userId) {
+        ChatRoom room = rooms.get(roomId);
+        if (room == null) {
+            return;
+        }
+        room.handleWriteRequest(userId);
+    }
 }

@@ -20,4 +20,12 @@ public class ChatRoom {
             chatPane.addMessage(message.getMessage(), message.getSender().getUsername());
         }
     }
+
+    public void grantWritePermission() {
+        chatPane.enableWrite();
+    }
+
+    public void removeWritePermission() {
+        chatPane.disableWrite();
+    }
 }
