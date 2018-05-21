@@ -77,9 +77,9 @@ public class NetworkEndpoint {
     }
 
     public void stop() throws IOException {
-        writer.close();
-        reader.close();
-        socket.close();
+        if (writer != null) writer.close();
+        if (reader != null) reader.close();
+        if (socket != null) socket.close();
     }
 
     public void onConnectionClosed(Command command) {

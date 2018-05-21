@@ -7,4 +7,5 @@ public interface AppContainer {
     void loadApp();
     void openChatRoom(ChatRoom room);
     void run();
+    void close();
 }

@@ -3,11 +3,18 @@ package com.lucianbc.onechat.client.view;
 import com.lucianbc.onechat.client.application.AppContainer;
 import com.lucianbc.onechat.client.application.AppContext;
 import com.lucianbc.onechat.client.model.ChatRoom;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
 
 public class SwingAppContainer extends JFrame implements AppContainer {
+
+    private static final Logger logger = LoggerFactory.getLogger(SwingAppContainer.class);
 
     private final AppContext appContext;
     private CardLayout cl = new CardLayout();
@@ -30,7 +37,24 @@ public class SwingAppContainer extends JFrame implements AppContainer {
         this.appPane = new AppPane(appContext.getConnectedUsers(), appContext.getDispatcher());
         this.content.add(this.appPane, "2");
         this.add(content, BorderLayout.CENTER);
+
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent windowEvent) {
+                close();
+            }
+        });
+
         this.setVisible(true);
+    }
+
+    public void close() {
+        System.out.println("Stopping app");
+        try {
+            if (appContext.getNetworkEndpoint() != null) this.appContext.getNetworkEndpoint().stop();
+        } catch (IOException e) {
+            logger.error("Could not stop network endpoint", e);
+        }
     }
 
     @Override
