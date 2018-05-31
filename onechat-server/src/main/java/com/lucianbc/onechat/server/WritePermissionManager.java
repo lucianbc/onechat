@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 
 @RequiredArgsConstructor
 class WritePermissionManager {
-    private static final int accessTime = 3600;
+    static int ACCESS_TIME = 3600;
 
     private Queue<UserSessionId> requests = new ConcurrentLinkedDeque<>();
     private UserSessionId currentUser = null;
@@ -35,7 +35,7 @@ class WritePermissionManager {
             writeContract.sendWriteAccess(usi, true, room.getRoomId());
             Thread removeAccessThread = new Thread(() -> {
                 try {
-                    Thread.sleep(accessTime);
+                    Thread.sleep(ACCESS_TIME);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
