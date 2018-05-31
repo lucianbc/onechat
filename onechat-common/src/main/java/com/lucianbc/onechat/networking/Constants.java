@@ -1,6 +1,6 @@
 package com.lucianbc.onechat.networking;
 
-interface Constants {
-    String template = "TO: %s, PAYLOAD: %s;";
-    String regex = "^TO: (.*), PAYLOAD: (.*);$";
+final class Constants {
+    static final String TEMPLATE = "TO: %s, PAYLOAD: %s;";
+    static final String REGEX = "^TO: (.*), PAYLOAD: (.*);$";
 }

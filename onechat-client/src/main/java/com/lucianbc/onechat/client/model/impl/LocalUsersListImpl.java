@@ -1,13 +1,13 @@
 package com.lucianbc.onechat.client.model.impl;
 
 import com.lucianbc.onechat.client.dao.UserIdentityDao;
-import com.lucianbc.onechat.data.UserIdentity;
 import com.lucianbc.onechat.client.model.LocalUsersList;
+import com.lucianbc.onechat.data.UserIdentity;
 
-import javax.swing.*;
-import javax.swing.event.ListDataListener;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
 
 public class LocalUsersListImpl extends MyAbstractListModel<UserIdentity> implements LocalUsersList {
 

@@ -12,7 +12,6 @@ public class MessageReceivedAction implements Action {
 
     @Override
     public void fire() {
-        System.out.println("Received a message!" + m);
         roomsController.handleMessage(m);
     }
 }

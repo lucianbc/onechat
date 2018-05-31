@@ -13,7 +13,7 @@ class Sender {
     String toRequest(String path, Object payload) throws BadPayloadException {
         try {
             String serializedPayload = mapper.writeValueAsString(payload);
-            return String.format(Constants.template, path, serializedPayload);
+            return String.format(Constants.TEMPLATE, path, serializedPayload);
         } catch (JsonProcessingException e) {
             throw new BadPayloadException(e.getMessage());
         }

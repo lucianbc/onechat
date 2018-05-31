@@ -2,6 +2,8 @@ package com.lucianbc.onechat.server;
 
 import com.lucianbc.onechat.data.Message;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +11,8 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 class ChatRoomManager {
+
+    private static final Logger logger = LoggerFactory.getLogger(ChatRoomManager.class);
 
     private final SessionManager sessionManager;
 
@@ -23,7 +27,7 @@ class ChatRoomManager {
     synchronized void handleMessage(Message<String, UserSessionId> message) {
         ChatRoom targetRoom = rooms.get(message.getRoom());
         if (targetRoom == null) {
-            System.out.println("Room not initialized");
+            logger.error("Room not initialized");
             return;
         }
         targetRoom.distributeMessage(message);

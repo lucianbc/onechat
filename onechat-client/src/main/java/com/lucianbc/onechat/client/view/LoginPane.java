@@ -31,10 +31,7 @@ class LoginPane extends JPanel {
 
 
         JButton selectButton = new JButton("select");
-        selectButton.addActionListener((e) -> {
-//            System.out.println(usersJList.getSelectedValue());
-            loginController.selectUser(usersJList.getSelectedValue());
-        });
+        selectButton.addActionListener(e -> loginController.selectUser(usersJList.getSelectedValue()));
         JButton removeButton = new JButton("remove");
         removeButton.addActionListener(e -> {
             UserIdentity ui = usersJList.getSelectedValue();

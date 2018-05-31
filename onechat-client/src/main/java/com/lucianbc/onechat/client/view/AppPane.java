@@ -2,6 +2,8 @@ package com.lucianbc.onechat.client.view;
 
 import com.lucianbc.onechat.client.action.ActionDispatcher;
 import com.lucianbc.onechat.data.UserIdentity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,22 +12,23 @@ import java.awt.event.MouseEvent;
 
 class AppPane extends JPanel {
 
+    private static final Logger logger = LoggerFactory.getLogger(AppPane.class);
+
     private UserIdentity loggedUser = new UserIdentity("", "");
     private AbstractListModel<UserIdentity> connectedUsers;
-    private ActionDispatcher dispatcher;
+    private transient ActionDispatcher dispatcher;
 
     AppPane(AbstractListModel<UserIdentity> connectedUsers, ActionDispatcher dispatcher) {
         this.setBackground(Color.CYAN);
         this.connectedUsers = connectedUsers;
         this.dispatcher = dispatcher;
-//        init(connectedUsers);
     }
 
-    public void setLoggedUser(UserIdentity loggedUser) {
+    void setLoggedUser(UserIdentity loggedUser) {
         this.loggedUser = loggedUser;
     }
 
-    public void init() {
+    void init() {
         this.setLayout(new GridBagLayout());
 
         GridBagConstraints c = new GridBagConstraints();
@@ -63,7 +66,7 @@ class AppPane extends JPanel {
             public void mouseClicked(MouseEvent mouseEvent) {
                 if (mouseEvent.getClickCount() == 2) {
                     dispatcher.dispatch(dispatcher.factory().startChat(connectedUsersList.getSelectedValue()));
-                    System.out.println("Will start chat with " + connectedUsersList.getSelectedValue());
+                    logger.info(String.format("Will start chat with %s", connectedUsersList.getSelectedValue()));
                 }
             }
         });

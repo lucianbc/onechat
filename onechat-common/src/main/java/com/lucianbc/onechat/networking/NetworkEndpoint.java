@@ -25,7 +25,7 @@ public class NetworkEndpoint {
     private Command onConnectionClosed;
 
     public NetworkEndpoint(String host, int port, RequestMapper mapper) throws IOException {
-        Socket socket = new Socket();
+        socket = new Socket();
         socket.connect(new InetSocketAddress(host, port), TIMEOUT);
 
         init(socket, mapper);
@@ -37,7 +37,6 @@ public class NetworkEndpoint {
 
     private void listen() {
         while (true) {
-            System.out.println("waiting to read");
             try {
                 String line = reader.readLine();
                 if (line == null) {

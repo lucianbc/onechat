@@ -103,7 +103,7 @@ public class ChatPane extends JPanel {
     }
 
     public void addMessage(String message, String sender) {
-        String content = String.format("%s: %s\n", sender, message);
+        String content = String.format("%s: %s \n", sender, message);
         messagesArea.append(content);
     }
 

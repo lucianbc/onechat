@@ -43,18 +43,18 @@ public class Main {
         ActionDispatcher.Factory f = d.factory();
         RequestMapper mapper = new RequestMapper();
 
-        mapper.register("/connectedUser", (e) -> d.dispatch(f.userConnected(e)), UserIdentity.class);
-        mapper.register("/disconnectedUser", (e) -> d.dispatch(f.userDisconnected(e)), UserIdentity.class);
-        mapper.register("/rooms", (e) -> d.dispatch(f.addedToRoom(e)), String.class);
+        mapper.register("/connectedUser", e -> d.dispatch(f.userConnected(e)), UserIdentity.class);
+        mapper.register("/disconnectedUser", e -> d.dispatch(f.userDisconnected(e)), UserIdentity.class);
+        mapper.register("/rooms", e -> d.dispatch(f.addedToRoom(e)), String.class);
 
 
         List<Class> messageClasses = new LinkedList<>();
         messageClasses.add(Message.class);
         messageClasses.add(String.class);
         messageClasses.add(UserIdentity.class);
-        mapper.register("/incomingMessages", (e) -> d.dispatch(f.messageReceived((Message<String, UserIdentity>)e)), messageClasses);
+        mapper.register("/incomingMessages", e -> d.dispatch(f.messageReceived((Message<String, UserIdentity>)e)), messageClasses);
 
-        mapper.register("/writeAccess", (e) -> {
+        mapper.register("/writeAccess", e -> {
             Action action = e.isHasAccess() ? f.accessReceived(e.getRoomId()) : f.accessTook(e.getRoomId());
             d.dispatch(action);
         }, RoomAccess.class);

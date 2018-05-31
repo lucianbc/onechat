@@ -40,7 +40,6 @@ public class ClientHandler implements Runnable {
     }
 
     private void handlePermissionRequest(String roomId) {
-        System.out.println("Handling a permission ask");
         chatRoomManager.handleWriteRequest(roomId, userSession.getId());
     }
 

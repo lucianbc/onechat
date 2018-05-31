@@ -6,11 +6,9 @@ import com.lucianbc.onechat.data.Message;
 import com.lucianbc.onechat.data.UserIdentity;
 
 public class ActionDispatcher {
-    private final AppContext context;
     private final Factory factory;
 
     public ActionDispatcher(AppContext context) {
-        this.context = context;
         this.factory = new Factory(context);
     }
 

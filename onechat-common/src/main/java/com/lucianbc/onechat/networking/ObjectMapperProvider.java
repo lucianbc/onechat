@@ -10,12 +10,15 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 
 class ObjectMapperProvider {
+
     private static ObjectMapper mapper;
 
     static ObjectMapper getInstance() {
         if (mapper == null) mapper = initMapper();
         return mapper;
     }
+
+    private ObjectMapperProvider() {}
 
     private static ObjectMapper initMapper() {
         ObjectMapper mapper = new ObjectMapper();

@@ -27,7 +27,7 @@ public class RequestMapper {
         MappingRecord record = actions.get(path);
         if (record == null) {
             logger.debug("No mapping found");
-            logger.debug(path + " " + serializedArg);
+            logger.debug(String.format("%s %s", path, serializedArg));
             return;
         }
         try {

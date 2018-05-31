@@ -24,9 +24,9 @@ public class H2UserIdentityDao implements UserIdentityDao {
         List<UserIdentity> identities = new ArrayList<>();
         try (
             Connection conn = connection();
-            Statement stm = conn.createStatement()
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(cmd)
         ) {
-            ResultSet rs = stm.executeQuery(cmd);
             while (rs.next()) {
                 String id = rs.getString(1);
                 String username = rs.getString(2);

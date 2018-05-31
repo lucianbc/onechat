@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 class Receiver {
     private static Logger logger = LoggerFactory.getLogger(Receiver.class);
-    private Pattern pattern = Pattern.compile(Constants.regex);
+    private Pattern pattern = Pattern.compile(Constants.REGEX);
 
     private final RequestMapper requestMapper;
 
@@ -27,7 +27,7 @@ class Receiver {
                 logger.error("Error parsing and firing action", e);
             }
         } else {
-            logger.error("Bad request template when parsing incoming request");
+            logger.error("Bad request TEMPLATE when parsing incoming request");
         }
     }
 }
