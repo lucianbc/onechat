@@ -5,6 +5,7 @@ import com.lucianbc.onechat.data.UserIdentity;
 import com.lucianbc.onechat.client.model.LocalUsersList;
 
 import java.sql.SQLException;
+import java.util.UUID;
 
 public class LoginController {
 
@@ -27,5 +28,10 @@ public class LoginController {
     public void selectUser(UserIdentity selectedValue) {
         if (selectedValue != null)
             dispatcher.dispatch(dispatcher.factory().userSelected(selectedValue));
+    }
+
+    public void loginAnonymous() {
+        UserIdentity anonIdentity = new UserIdentity(UUID.randomUUID().toString(), "anonymous");
+        dispatcher.dispatch(dispatcher.factory().userSelected(anonIdentity));
     }
 }
