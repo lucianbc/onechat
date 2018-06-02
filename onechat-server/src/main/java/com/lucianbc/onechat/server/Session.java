@@ -4,12 +4,15 @@ import com.lucianbc.onechat.data.Message;
 import com.lucianbc.onechat.data.RoomAccess;
 import com.lucianbc.onechat.data.UserIdentity;
 import com.lucianbc.onechat.networking.NetworkEndpoint;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
-@AllArgsConstructor
+import java.util.ArrayList;
+import java.util.List;
+
+@RequiredArgsConstructor
 class Session {
-    private UserIdentity user;
-    private NetworkEndpoint networkEndpoint;
+    private final UserIdentity user;
+    private final NetworkEndpoint networkEndpoint;
 
     void notifyAboutConnected(Session userSession) {
         networkEndpoint.send("/connectedUser", userSession.user);
@@ -19,7 +22,7 @@ class Session {
         networkEndpoint.send("/disconnectedUser", userSession.user);
     }
 
-    void notifyAboutRoom(ChatRoom chatRoom) {
+    private void notifyAboutRoom(ChatRoom chatRoom) {
         networkEndpoint.send("/rooms", chatRoom.getRoomId());
     }
 
@@ -33,5 +36,13 @@ class Session {
 
     void setWriteAccess(String roomId, boolean access) {
         networkEndpoint.send("/writeAccess", new RoomAccess(roomId, access));
+    }
+
+    void exitRoom(ChatRoom room) {
+        room.disconnectSession(this);
+    }
+
+    void enterRoom(ChatRoom room) {
+        notifyAboutRoom(room);
     }
 }

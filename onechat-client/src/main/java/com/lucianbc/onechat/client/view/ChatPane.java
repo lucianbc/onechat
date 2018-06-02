@@ -1,6 +1,7 @@
 package com.lucianbc.onechat.client.view;
 
 import com.lucianbc.onechat.client.action.ActionDispatcher;
+import com.lucianbc.onechat.client.controller.ChatRoomsController;
 import com.lucianbc.onechat.client.model.ChatRoom;
 
 import javax.swing.*;
@@ -13,9 +14,11 @@ public class ChatPane extends JPanel {
     private JButton sendBtn;
     private final ActionDispatcher actionDispatcher;
     private final ChatRoom room;
+    private final ChatRoomsController roomsController;
 
-    ChatPane(ChatRoom room, ActionDispatcher dispatcher) {
+    ChatPane(ChatRoom room, ActionDispatcher dispatcher, ChatRoomsController roomsController) {
         this.room = room;
+        this.roomsController = roomsController;
         this.room.bindView(this);
         this.actionDispatcher = dispatcher;
         init();
@@ -128,5 +131,9 @@ public class ChatPane extends JPanel {
     public void disableWrite() {
         this.myTextArea.setEditable(false);
         this.sendBtn.setEnabled(false);
+    }
+
+    void exit() {
+        roomsController.closeRoom(room);
     }
 }

@@ -2,12 +2,16 @@ package com.lucianbc.onechat.server;
 
 import com.lucianbc.onechat.data.Message;
 import lombok.Getter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
 class ChatRoom {
+
+    private static final Logger logger = LoggerFactory.getLogger(ChatRoom.class);
 
     private List<UserSessionId> userSessions = new LinkedList<>();
     @Getter private String roomId = UUID.randomUUID().toString();
@@ -23,8 +27,9 @@ class ChatRoom {
         Session session = sessionManager.getSession(id);
         if (session == null) return;
         userSessions.add(id);
-        session.notifyAboutRoom(this);
+        session.enterRoom(this);
     }
+
 
     void distributeMessage(Message<String, UserSessionId> message) {
         Session senderSession = sessionManager.getSession(message.getSender());
@@ -44,5 +49,10 @@ class ChatRoom {
 
     void handleWriteRequest(UserSessionId userId) {
         writePermissionManager.handleRequest(userId);
+    }
+
+    void disconnectSession(Session session) {
+        logger.info("User {} left room {}", this.roomId, session.getId());
+        userSessions.remove(session.getId());
     }
 }

@@ -66,5 +66,13 @@ public class ActionDispatcher {
         public Action requestWriteAccess(ChatRoom room) {
             return new RequestWritePermissionAction(room, context.getNetworkEndpoint());
         }
+
+        public Action openCommonChat() {
+            return new OpenCommonChatAction(context.getNetworkEndpoint());
+        }
+
+        public Action leaveRoom(ChatRoom room) {
+            return new LeaveRoomAction(context.getNetworkEndpoint(), room);
+        }
     }
 }

@@ -33,7 +33,7 @@ public class Main {
         ctx.setConnectedUsers(new ConnectedUsersImpl());
         ctx.setDispatcher(new ActionDispatcher(ctx));
         ctx.setLoginController(new LoginController(ctx.getLocalUsersList(), ctx.getDispatcher()));
-        ctx.setRoomsController(new ChatRoomsController());
+        ctx.setRoomsController(new ChatRoomsController(ctx.getDispatcher()));
         ctx.setRequestMapper(initMappings(ctx.getDispatcher()));
         return ctx;
     }
