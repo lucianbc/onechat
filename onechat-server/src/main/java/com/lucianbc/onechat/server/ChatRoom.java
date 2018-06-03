@@ -1,6 +1,8 @@
 package com.lucianbc.onechat.server;
 
 import com.lucianbc.onechat.data.Message;
+import com.lucianbc.onechat.server.dao.MessagesDao;
+import com.lucianbc.onechat.server.dao.MessagesDaoProvider;
 import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,10 +19,12 @@ class ChatRoom {
     @Getter private String roomId = UUID.randomUUID().toString();
     private final SessionManager sessionManager;
     private final WritePermissionManager writePermissionManager;
+    private final MessagesDao messagesDao;
 
     ChatRoom(SessionManager sessionManager) {
         this.sessionManager = sessionManager;
         this.writePermissionManager = new WritePermissionManager(sessionManager, this);
+        this.messagesDao = MessagesDaoProvider.getInstance();
     }
 
     void addUserSession(UserSessionId id) {
@@ -28,12 +32,13 @@ class ChatRoom {
         if (session == null) return;
         userSessions.add(id);
         session.enterRoom(this);
+        messagesDao.getAllMessages(roomId).forEach(session::sendMessage);
     }
-
 
     void distributeMessage(Message<String, UserSessionId> message) {
         Session senderSession = sessionManager.getSession(message.getSender());
         if (senderSession == null) return;
+        messagesDao.storeMessage(message);
         if (!writePermissionManager.canSend(message.getSender())) return;
         userSessions.forEach(usi -> {
             if (usi.equals(message.getSender())) return;

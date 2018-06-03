@@ -1,6 +1,8 @@
 package com.lucianbc.onechat.server;
 
 import com.lucianbc.onechat.data.Message;
+import com.lucianbc.onechat.server.dao.MessagesDao;
+import com.lucianbc.onechat.server.dao.MessagesDaoProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,6 +17,7 @@ class ChatRoomManager {
     private final SessionManager sessionManager;
 
     private final ChatRoom commonRoom;
+
 
     private Map<String, ChatRoom> rooms = new HashMap<>();
 

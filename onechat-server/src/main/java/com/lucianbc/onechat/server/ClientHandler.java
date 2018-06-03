@@ -4,8 +4,11 @@ import com.lucianbc.onechat.data.Message;
 import com.lucianbc.onechat.data.UserIdentity;
 import com.lucianbc.onechat.networking.NetworkEndpoint;
 import com.lucianbc.onechat.networking.RequestMapper;
+import com.lucianbc.onechat.server.dao.MessagesDao;
+import com.lucianbc.onechat.server.dao.MessagesDaoProvider;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.LinkedList;
 import java.util.List;

@@ -12,5 +12,12 @@ import java.io.Serializable;
 public class UserIdentity implements Serializable {
     private String id;
     private String username;
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) return true;
+        if (!(other instanceof UserIdentity)) return false;
+        return this.id.equals(((UserIdentity)other).id);
+    }
 }
 

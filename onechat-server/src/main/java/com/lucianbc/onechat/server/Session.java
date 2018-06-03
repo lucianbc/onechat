@@ -30,7 +30,7 @@ class Session {
         return new UserSessionId(user.getId());
     }
 
-    void sendMessage(Message<String, Session> message) {
+    void sendMessage(Message message) {
         networkEndpoint.send("/incomingMessages", message);
     }
 

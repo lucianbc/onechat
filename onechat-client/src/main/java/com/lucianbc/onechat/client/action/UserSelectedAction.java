@@ -38,6 +38,7 @@ public class UserSelectedAction implements Action {
             logger.error("Failed to create network endpoint", e);
 //            TODO: Implement a mechanism on the getter of the endpoint to alarm the user if the app is not connected
         }
+        context.getRoomsController().setMyUser(user);
         context.getNetworkEndpoint().send("/login", user);
     }
 }
