@@ -74,5 +74,9 @@ public class ActionDispatcher {
         public Action leaveRoom(ChatRoom room) {
             return new LeaveRoomAction(context.getNetworkEndpoint(), room);
         }
+
+        public Action newUser(UserIdentity ui) {
+            return new UserCreatedAction(context.getNetworkEndpoint(), ui);
+        }
     }
 }

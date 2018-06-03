@@ -11,14 +11,10 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-class DBMessagesDao implements MessagesDao {
+class DBMessagesDao extends BaseDbDao implements MessagesDao {
 
     private static final Logger logger = LoggerFactory.getLogger(DBMessagesDao.class);
 
-    private static final String CONNECTION_URL = "jdbc:mysql://localhost:3306/pao";
-    private static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
-    private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "1234";
 
     DBMessagesDao() throws SQLException, ClassNotFoundException {
         init();
@@ -72,9 +68,7 @@ class DBMessagesDao implements MessagesDao {
         }
     }
 
-    private void init() throws SQLException, ClassNotFoundException {
-        Class.forName(DB_DRIVER);
-
+    private void init() throws SQLException {
         try (
                 Connection conn = connection();
                 Statement stm = conn.createStatement()
@@ -86,9 +80,6 @@ class DBMessagesDao implements MessagesDao {
         }
     }
 
-    private Connection connection() throws SQLException {
-        return DriverManager.getConnection(CONNECTION_URL, DB_USER, DB_PASSWORD);
-    }
 
     private List<String> initDbCommands() {
         String initMessagesTable = "CREATE TABLE IF NOT EXISTS messages (\n" +

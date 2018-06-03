@@ -1,8 +1,6 @@
 package com.lucianbc.onechat.server;
 
 import com.lucianbc.onechat.data.Message;
-import com.lucianbc.onechat.server.dao.MessagesDao;
-import com.lucianbc.onechat.server.dao.MessagesDaoProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +21,7 @@ class ChatRoomManager {
 
     ChatRoomManager(SessionManager sessionManager) {
         this.sessionManager = sessionManager;
-        this.commonRoom = new ChatRoom(sessionManager);
+        this.commonRoom = new ChatRoom(sessionManager, "ddb5fe2f-5ae7-4cfc-afdc-0d09a0cc2d78");
     }
 
     synchronized void openRoom(List<UserSessionId> initialUsers) {

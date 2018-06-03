@@ -26,10 +26,11 @@ public class LocalUsersListImpl extends MyAbstractListModel<UserIdentity> implem
     }
 
     @Override
-    public void registerUser(String username) throws SQLException {
+    public UserIdentity registerUser(String username) throws SQLException {
         UserIdentity userIdentity = new UserIdentity(UUID.randomUUID().toString(), username);
         userIdentityDao.registerUser(userIdentity);
         add(userIdentity);
+        return userIdentity;
     }
 
     @Override

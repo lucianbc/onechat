@@ -22,7 +22,8 @@ public class LoginController {
     }
 
     public void addUser(String username) throws SQLException {
-        localUsersList.registerUser(username);
+        UserIdentity ui = localUsersList.registerUser(username);
+        dispatcher.dispatch(dispatcher.factory().newUser(ui));
     }
 
     public void selectUser(UserIdentity selectedValue) {

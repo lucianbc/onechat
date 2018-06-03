@@ -4,11 +4,9 @@ import com.lucianbc.onechat.data.Message;
 import com.lucianbc.onechat.data.UserIdentity;
 import com.lucianbc.onechat.networking.NetworkEndpoint;
 import com.lucianbc.onechat.networking.RequestMapper;
-import com.lucianbc.onechat.server.dao.MessagesDao;
-import com.lucianbc.onechat.server.dao.MessagesDaoProvider;
+import com.lucianbc.onechat.server.dao.DaoProvider;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.LinkedList;
 import java.util.List;
@@ -41,7 +39,12 @@ public class ClientHandler implements Runnable {
         mapper.register("/roomPermission", this::handlePermissionRequest, String.class);
         mapper.register("/common-register", this::registerToCommon, String.class);
         mapper.register("/leaveRoom", this::leaveRoom, String.class);
+        mapper.register("/newUser", this::newUser, UserIdentity.class);
         return mapper;
+    }
+
+    private void newUser(UserIdentity t) {
+        DaoProvider.getUsersDao().registerUser(t);
     }
 
     private void leaveRoom(String roomId) {
