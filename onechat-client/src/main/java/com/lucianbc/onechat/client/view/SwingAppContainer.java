@@ -2,6 +2,7 @@ package com.lucianbc.onechat.client.view;
 
 import com.lucianbc.onechat.client.application.AppContainer;
 import com.lucianbc.onechat.client.application.AppContext;
+import com.lucianbc.onechat.client.controller.ChatRoomsController;
 import com.lucianbc.onechat.client.model.ChatRoom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,12 +18,14 @@ public class SwingAppContainer extends JFrame implements AppContainer {
     private static final Logger logger = LoggerFactory.getLogger(SwingAppContainer.class);
 
     private final AppContext appContext;
+    private final ChatRoomsController roomsController;
     private CardLayout cl = new CardLayout();
     private JPanel content;
     private AppPane appPane;
 
     public SwingAppContainer(AppContext appContext) {
         this.appContext = appContext;
+        this.roomsController = appContext.getRoomsController();
     }
 
     private void init() {
@@ -41,6 +44,7 @@ public class SwingAppContainer extends JFrame implements AppContainer {
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent windowEvent) {
+                roomsController.closeRooms();
                 close();
             }
         });
@@ -49,7 +53,6 @@ public class SwingAppContainer extends JFrame implements AppContainer {
     }
 
     public void close() {
-        System.out.println("Stopping app");
         try {
             if (appContext.getNetworkEndpoint() != null) this.appContext.getNetworkEndpoint().stop();
         } catch (IOException e) {
@@ -73,10 +76,17 @@ public class SwingAppContainer extends JFrame implements AppContainer {
     public void openChatRoom(ChatRoom room) {
         JFrame jFrame = new JFrame();
         jFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        jFrame.add(new ChatPane(room, appContext.getDispatcher()));
+        ChatPane chatPane = new ChatPane(room, appContext.getDispatcher(), roomsController);
+        jFrame.add(chatPane);
         jFrame.setSize(500, 400);
         jFrame.setLocation(300, 300);
         jFrame.setVisible(true);
+        jFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent windowEvent) {
+                chatPane.exit();
+            }
+        });
     }
 
     @Override

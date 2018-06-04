@@ -1,11 +1,16 @@
 package com.lucianbc.onechat.server;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.FileInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
 
 public class OneChatServer {
+
+    private static final Logger logger = LoggerFactory.getLogger(OneChatServer.class);
 
     public static void main(String[] args) throws Exception {
         initPermissionTimeout();
@@ -24,11 +29,12 @@ public class OneChatServer {
                 Thread thread = new Thread(handler);
                 thread.start();
             }
+        } finally {
+            logger.info("Closing server");
         }
     }
 
     private static void initPermissionTimeout() {
-        System.out.println("Try to read file");
         try (FileInputStream fis = new FileInputStream("server.properties"); Scanner scanner = new Scanner(fis)) {
             if (scanner.hasNextLine()) {
                 String line = scanner.nextLine();

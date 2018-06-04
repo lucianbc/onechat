@@ -74,6 +74,12 @@ class AppPane extends JPanel {
         scrollPane.setPreferredSize(new Dimension(0, 200));
         p2.setLayout(new BorderLayout());
         p2.add(scrollPane, BorderLayout.CENTER);
+
+        JButton commonChatButton = new JButton("Go to common chat");
+        commonChatButton.addActionListener(e -> dispatcher.dispatch(dispatcher.factory().openCommonChat()));
+
+        p2.add(commonChatButton, BorderLayout.NORTH);
+
         c.gridy = 1;
         c.weighty = 80;
         this.add(p2, c);

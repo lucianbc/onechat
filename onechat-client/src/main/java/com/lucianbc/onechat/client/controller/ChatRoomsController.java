@@ -1,14 +1,23 @@
 package com.lucianbc.onechat.client.controller;
 
+import com.lucianbc.onechat.client.action.ActionDispatcher;
 import com.lucianbc.onechat.client.model.ChatRoom;
 import com.lucianbc.onechat.data.Message;
 import com.lucianbc.onechat.data.UserIdentity;
+import lombok.Setter;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class ChatRoomsController {
     private Map<String, ChatRoom> rooms = new HashMap<>();
+    private final ActionDispatcher actionDispatcher;
+    @Setter private UserIdentity myUser;
+
+    public ChatRoomsController(ActionDispatcher actionDispatcher) {
+        this.actionDispatcher = actionDispatcher;
+    }
 
     public ChatRoom registerRoom(String roomId) {
         ChatRoom r = new ChatRoom(roomId);
@@ -19,6 +28,9 @@ public class ChatRoomsController {
     public void handleMessage(Message<String, UserIdentity> m) {
         ChatRoom r = rooms.get(m.getRoom());
         if (r == null) return;
+        if (m.getSender().equals(myUser)) {
+            m.getSender().setUsername("you");
+        }
         r.receiveMessage(m);
     }
 
@@ -34,5 +46,19 @@ public class ChatRoomsController {
         if (room == null) return;
 
         room.removeWritePermission();
+    }
+
+    public void closeRoom(ChatRoom room) {
+        actionDispatcher.dispatch(actionDispatcher.factory().leaveRoom(room));
+        rooms.remove(room.getRoomId());
+    }
+
+    public void closeRooms() {
+        Iterator<Map.Entry<String, ChatRoom>> it = rooms.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<String, ChatRoom> e = it.next();
+            actionDispatcher.dispatch(actionDispatcher.factory().leaveRoom(e.getValue()));
+            it.remove();
+        }
     }
 }

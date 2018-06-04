@@ -51,11 +51,15 @@ class LoginPane extends JPanel {
             }
         });
 
+        JButton loginAnonButton = new JButton("anonymous");
+        loginAnonButton.addActionListener(e -> loginController.loginAnonymous());
+
         JPanel controlPanel = new JPanel();
-        controlPanel.setLayout(new GridLayout(1, 3));
+        controlPanel.setLayout(new GridLayout(2, 2));
         controlPanel.add(selectButton);
         controlPanel.add(removeButton);
         controlPanel.add(addButton);
+        controlPanel.add(loginAnonButton);
 
         content.add(scrollPane);
         content.add(controlPanel);

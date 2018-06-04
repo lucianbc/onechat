@@ -11,11 +11,6 @@ import java.io.IOException;
 
 public class UserSelectedAction implements Action {
 
-    private static final Logger logger = LoggerFactory.getLogger(UserSelectedAction.class);
-
-    private static final String HOST = "localhost";
-    private static final int PORT = 5000;
-
     private final AppContainer container;
     private final UserIdentity user;
     private final AppContext context;
@@ -30,14 +25,8 @@ public class UserSelectedAction implements Action {
     public void fire() {
         context.setCurrentUser(user);
         container.loadApp();
-        try {
-            NetworkEndpoint ne = new NetworkEndpoint(HOST, PORT, context.getRequestMapper());
-            ne.startListen();
-            context.setNetworkEndpoint(ne);
-        } catch (IOException e) {
-            logger.error("Failed to create network endpoint", e);
-//            TODO: Implement a mechanism on the getter of the endpoint to alarm the user if the app is not connected
-        }
+
+        context.getRoomsController().setMyUser(user);
         context.getNetworkEndpoint().send("/login", user);
     }
 }

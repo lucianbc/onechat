@@ -15,6 +15,7 @@ class SessionManager implements SessionWriteContract {
     }
 
     synchronized void dropSession(Session session) {
+        if (session == null) return;
         sessions.remove(session.getId());
         sessions.forEach((k, v) -> v.notifyAboutDisconnected(session));
     }
