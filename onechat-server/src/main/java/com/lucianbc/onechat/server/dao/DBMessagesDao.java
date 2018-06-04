@@ -51,6 +51,10 @@ class DBMessagesDao extends BaseDbDao implements MessagesDao {
         return l;
     }
 
+
+//    Boaca Lucian - 10
+
+
     @Override
     public void storeMessage(Message<String, UserSessionId> message) {
         String cmd = "insert into messages (user_id, room_id, message, timestamp) values (?, ?, ?, ?)";
