@@ -3,7 +3,6 @@ package com.lucianbc.onechat.client.action;
 import com.lucianbc.onechat.data.UserIdentity;
 import com.lucianbc.onechat.networking.NetworkEndpoint;
 import lombok.RequiredArgsConstructor;
-import sun.nio.ch.Net;
 
 @RequiredArgsConstructor
 public class UserCreatedAction implements Action {
