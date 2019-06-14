@@ -2,7 +2,6 @@ package com.lucianbc.onechat.client;
 
 import com.lucianbc.onechat.client.action.Action;
 import com.lucianbc.onechat.client.action.ActionDispatcher;
-import com.lucianbc.onechat.client.action.UserSelectedAction;
 import com.lucianbc.onechat.client.application.AppContainer;
 import com.lucianbc.onechat.client.application.AppContext;
 import com.lucianbc.onechat.client.controller.ChatRoomsController;
@@ -59,11 +58,6 @@ public class Main {
 //            TODO: Implement a mechanism on the getter of the endpoint to alarm the user if the app is not connected
         }
     }
-
-    // Boaca Lucian
-    // 9
-
-
 
 
     @SuppressWarnings("unchecked")

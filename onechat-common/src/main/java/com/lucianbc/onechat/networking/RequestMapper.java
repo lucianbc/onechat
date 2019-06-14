@@ -87,6 +87,7 @@ public class RequestMapper {
     private class MappingRecord {
         @Getter
         private Consumer action;
-        @Getter private TypeReference paramType;
+        @Getter
+        private TypeReference paramType;
     }
 }
