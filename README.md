@@ -1,4 +1,7 @@
 # OneChat
+[![Build Status](https://travis-ci.org/lucianbc/onechat.svg?branch=master)](https://travis-ci.org/lucianbc/onechat)
+
+
 Java chat app unsing network sockets and swing for the UI. You can log in anonymously or by using a nickname and chatin private or in a chat room shared by all the active users. 
 
 This app was developed as a homework for the "Advanced OOP" course at the University of Bucharest.
