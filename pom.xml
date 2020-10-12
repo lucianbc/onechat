@@ -12,7 +12,7 @@
     <properties>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
         <h2.version>1.4.197</h2.version>
-        <junit.version>4.12</junit.version>
+        <junit.version>4.13.1</junit.version>
         <slf4j-api.version>1.7.25</slf4j-api.version>
         <logback.version>1.2.3</logback.version>
     </properties>
